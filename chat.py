@@ -19,11 +19,13 @@ if 'chat_session' not in st.session_state:
     st.session_state.chat_history = []  # Initialize chat history
 
 def handle_chat(name, emotion, situation, message_type):
-    question = f"{name} is feeling {emotion} and is in a situation of {situation}. They would like a message of {message_type}."
+    # Tailored question to prompt concise, quote-like responses
+    question = f"Generate a short motivational quote for someone feeling {emotion}, dealing with {situation}, who needs {message_type}."
     try:
         response = st.session_state.chat_session.send_message(question)
-        intro_response = f"Hello {name}, based on your feelings of {emotion} and your current situation about {situation}, here's a personalized motivational message just for you:"
-        full_response = f"{intro_response} {response.text} Is there anything else I can do for you?"
+        # Directly deliver the motivational quote
+        intro_response = f"Hello {name}, here's a motivational quote just for you:"
+        full_response = f"{intro_response} '{response.text}'"
         st.session_state.chat_history.append({"type": "Question", "content": question})
         st.session_state.chat_history.append({"type": "Response", "content": full_response})
         return full_response
